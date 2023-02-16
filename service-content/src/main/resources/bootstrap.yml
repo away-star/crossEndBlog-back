@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: service-content
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: star-blog
+        group: star-blog
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/content
+      password: "030321"
+      username: root
+
+server:
+  port: 8089

@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: service-user
+  cloud:
+    config:
+      #设置本地优先级最高
+      allow-override: true
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: star-blog
+        group: star-blog
+      config:
+        namespace: star-blog
+        #group为public情况下可以省略
+        group: star-blog
+        file-extension: yaml
+        #是否支持动态刷新
+        refresh-enabled: true
+        shared-configs:
+          - data-id: common.yaml
+            #group为public情况下可以省略
+            group: star-blog
+            #是否支持动态刷新
+            refresh: true
+  mail:
+    # SMTP服务器
+    host: smtp.163.com
+    # 发送验证码邮箱
+    username: q2064989403@163.com
+    # 授权码
+    password: HTQQVIBEFOEPGUNS
+    # 编码
+    default-encoding: utf-8
+    port: 465
+    protocol: smtps
+  #手动指定开发环境
+  profiles:
+    active: dev
+
+
+
+server:
+  port: 8083
+
+
+
+
+
+

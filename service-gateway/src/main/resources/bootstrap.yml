@@ -1,0 +1,24 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/helloWorld
+      password: "030321"
+      username: root
+  application:
+    name: service-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #让gateway可以发现nacos中的微服务
+          enabled: true
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: star-blog
+        group: star-blog
+
+

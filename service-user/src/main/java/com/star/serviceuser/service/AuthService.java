@@ -1,0 +1,23 @@
+package com.star.serviceuser.service;
+
+import com.star.serviceuser.domain.dto.LoginInformationDto;
+import com.star.serviceuser.domain.entity.LoginInformation;
+
+/**
+ * @description 认证接口
+ * @author Mr.M
+ * @date 2022/10/20 14:48
+ * @version 1.0
+ */
+public interface AuthService {
+
+  /**
+   * @description 认证方法
+   * @param authParamsDto 认证参数
+   * @return com.xuecheng.ucenter.model.po.XcUser 用户信息
+   * @author Mr.M
+   * @date 2022/9/29 12:11
+   */
+  LoginInformation execute(LoginInformationDto authParamsDto);
+
+}
