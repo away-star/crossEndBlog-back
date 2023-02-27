@@ -39,7 +39,7 @@ public class ImageUploadController {
         //log.error(file.toString());
         //以流的形式上传
         InputStream fileStream = file.getInputStream();
-        String url = qiNiuSupport.uploadFileInputStream(fileStream, UUID.randomUUID() + file.getOriginalFilename());
+        String url = qiNiuSupport.uploadFileInputStream(fileStream, "blog/" +UUID.randomUUID() + file.getOriginalFilename());
 
         /*
          以字节形式上传
