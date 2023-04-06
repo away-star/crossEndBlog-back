@@ -1,7 +1,7 @@
 package com.star.serviceuser.service.impl.used;
 
 import cn.hutool.json.JSONUtil;
-import com.example.servicecommon.exception.BusinessException;
+import com.star.servicecommon.exception.BusinessException;
 import com.star.serviceuser.domain.dto.LoginInformationDto;
 import com.star.serviceuser.domain.entity.LoginInformation;
 import com.star.serviceuser.domain.entity.Power;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.example.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
+import static com.star.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
 
 /**
  * @author Mr.M
@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserDetailsService {
     //传入的是AuthParamsDto的json串
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        log.info("认证请求参数:{}", s);
         LoginInformationDto loginInformationDto = null;
         try {
             //将认证参数转为AuthParamsDto类型
@@ -51,9 +52,9 @@ public class UserServiceImpl implements UserDetailsService {
             throw new RuntimeException("认证请求数据格式不对");
         }
 
-
         //认证方式,
         String authType = loginInformationDto.getAuthType();
+        log.error(loginInformationDto.toString());
         //从spring容器中拿具体的认证bean实例
         AuthService authService = applicationContext.getBean(authType + "_authservice", AuthService.class);
         //开始认证,认证成功拿到用户信息
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserDetailsService {
 
         String jsonString = JSONUtil.toJsonStr(user);
         UserDetails userDetails = User.withUsername(jsonString).password("").authorities(authorities).build();
-
+        log.error('[' + userDetails.getUsername() + "]登录成功");
         return userDetails;
     }
 

@@ -1,6 +1,6 @@
 package com.star.serviceuser.web.config;
 
-import com.example.servicecommon.domain.Result;
+import com.star.servicecommon.domain.Result;
 import com.star.serviceuser.service.LoginInformationService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,6 @@ public class AuthController implements InitializingBean {
 
     @Autowired
     private LoginInformationService loginInformationService;
-
 
 
     /**

@@ -1,6 +1,5 @@
 package com.star.serviceuser;
 
-import com.star.serviceuser.domain.entity.UserInfo;
 import com.star.serviceuser.service.LoginInformationService;
 import com.star.serviceuser.service.PowerService;
 import com.star.serviceuser.service.User2powerService;
@@ -32,11 +31,12 @@ class ServiceUserApplicationTests {
     @Test
     void contextLoads() {
 
-        UserInfo userInfo = new UserInfo();
+       /* UserInfo userInfo = new UserInfo();
         userInfo.setLoginInformationId(1313L);
 
         userInfoService.save(userInfo);
-        System.out.println(userInfo);
+        System.out.println(userInfo);*/
+
 
     }
 

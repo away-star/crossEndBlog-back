@@ -2,7 +2,7 @@ package com.star.serviceuser.service.impl.used;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.servicecommon.exception.BusinessException;
+import com.star.servicecommon.exception.BusinessException;
 import com.star.serviceuser.domain.dto.LoginInformationDto;
 import com.star.serviceuser.domain.entity.LoginInformation;
 import com.star.serviceuser.service.AuthService;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import static com.star.serviceuser.constant.Authority.loginCaptchaPrefix;
 import static com.star.serviceuser.web.msg.UAACodeMsg.*;
 
 
@@ -43,13 +44,25 @@ public class EmailAuthServiceImpl implements AuthService {
             throw new BusinessException(LOGIN_ERROR_EMAIL);
         }
 
+
         String captcha = authParamsDto.getCaptcha();
         log.error(user.toString());
-        // todo 从redis中查询到验证码是否正确
-        String s = stringRedisTemplate.opsForValue().get(authParamsDto.getEmail());
-        if (StringUtils.equals(captcha,s)){
+
+        //判定为邮箱+验证码登录
+        if (captcha!=null){
+            // todo 从redis中查询到验证码是否正确
+            String s = stringRedisTemplate.opsForValue().get(loginCaptchaPrefix+authParamsDto.getEmail());
+            if (StringUtils.equals(captcha,s)){
+                return user;
+            }
+            throw new BusinessException(ERROR_CAPTCHA);
+        }
+
+        //判定为邮箱+密码登录
+        String password = authParamsDto.getPassword();
+        if (StringUtils.equals(password,user.getPassword())){
             return user;
         }
-        throw new BusinessException(ERROR_CAPTCHA);
+        throw new BusinessException(LOGIN_ERROR_PASSWORD);
     }
 }

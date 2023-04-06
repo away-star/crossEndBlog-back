@@ -3,21 +3,26 @@ package com.star.serviceuser.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.example.servicecommon.domain.Result;
+import com.star.servicecommon.domain.Result;
+import com.star.servicecommon.exception.BusinessException;
+import com.star.serviceuser.domain.dto.LoginInformationDto;
+import com.star.serviceuser.domain.dto.RegisterInfo;
 import com.star.serviceuser.domain.entity.LoginInformation;
+import com.star.serviceuser.domain.vo.UserDetail;
 import com.star.serviceuser.service.LoginInformationService;
 import com.star.serviceuser.util.MailClientUtil;
 import com.star.serviceuser.util.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Email;
 import java.util.concurrent.TimeUnit;
+
+import static com.star.serviceuser.constant.Authority.*;
+import static com.star.serviceuser.web.msg.UAACodeMsg.*;
 
 /**
  * @author star
@@ -45,25 +50,87 @@ public class LoginController {
      * @return {@link R
      * }<{@link String}>
      */
-    @GetMapping("/mail/captcha")
+    @GetMapping("/mail/login/captcha")
     public Result<Object> codeSendForLogin(@RequestParam("email") @Email String email) {
-        LambdaQueryWrapper<LoginInformation> userWrapper = new LambdaQueryWrapper<>();
-        userWrapper.eq(LoginInformation::getEmail, email);
-        log.error(email);
-        LoginInformation one = loginService.getOne(userWrapper);
+        LoginInformation one = getLoginInformationByEmail(email);
         String captcha = ValidateCodeUtils.generateValidateCode4String(4);
-
-
-        if (one== null) {
-            throw new RuntimeException("未查找到相关账号信息，请先注册哦");
+        if (one == null) {
+            throw new BusinessException(LOGIN_ERROR_EMAIL);
         }
         log.error(captcha);
-        boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎光临starBlog");
-        stringRedisTemplate.opsForValue().set(email,captcha,5, TimeUnit.MINUTES);
+        boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎光临 cross-end Blog");
+        stringRedisTemplate.opsForValue().set(loginCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
         if (flag) {
             return Result.success();
         }
-        throw new RuntimeException("系统错误，请联系小星");
+        throw new BusinessException(ERROR_SERVER);
+    }
+
+    @GetMapping("/mail/register/captcha")
+    public Result<Object> codeSendForRegister(@RequestParam("email") @Email String email) {
+        LoginInformation one = getLoginInformationByEmail(email);
+        if (one != null) {
+            throw new BusinessException(REGISTER_ERROR_EMAIL);
+        }
+        log.error(email);
+        String captcha = ValidateCodeUtils.generateValidateCode4String(4);
+        boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎注册cross-end Blog");
+        stringRedisTemplate.opsForValue().set(registerCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
+        if (flag) {
+            return Result.success();
+        }
+        throw new BusinessException(ERROR_SERVER);
+    }
+
+    @GetMapping("/mail/recover/captcha")
+    public Result<Object> codeSendForRecover(@RequestParam("email") @Email String email) {
+        LoginInformation one = getLoginInformationByEmail(email);
+        if (one == null) {
+            throw new BusinessException(LOGIN_ERROR_EMAIL);
+        }
+        log.error(email);
+        String captcha = ValidateCodeUtils.generateValidateCode4String(4);
+        boolean flag = mailClientUtil.sendMail(email, captcha, "您正在修改账户密码，若非本人操作，请尽快联系管理员");
+        stringRedisTemplate.opsForValue().set(recoveryCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
+        if (flag) {
+            return Result.success();
+        }
+        throw new BusinessException(ERROR_SERVER);
+    }
+
+
+    private LoginInformation getLoginInformationByEmail(String email) {
+        LambdaQueryWrapper<LoginInformation> userWrapper = new LambdaQueryWrapper<>();
+        userWrapper.eq(LoginInformation::getEmail, email);
+        return loginService.getOne(userWrapper);
+    }
+
+
+    @PostMapping("/register")
+    public Result<UserDetail> register(@RequestBody @Validated RegisterInfo registerInfo) {
+        // todo 从请求头中获得registerIp
+
+        log.error(registerInfo.toString());
+
+        String registerIp = "123456";
+        UserDetail userDetail = loginService.register(registerInfo, registerIp);
+        if (userDetail != null) {
+            return Result.success(userDetail);
+        }
+        return Result.defaultError();
+    }
+
+    @PutMapping("/recover")
+    public Result<String> recover(@RequestBody @Validated LoginInformationDto loginInformationDto) {
+        // todo 从请求头中获得registerIp
+        log.error(loginInformationDto.toString());
+
+        if (loginService.recover(loginInformationDto.getEmail(),
+                loginInformationDto.getCaptcha(),
+                loginInformationDto.getPassword())) {
+            return Result.success();
+        }
+        return Result.defaultError();
     }
 
 }

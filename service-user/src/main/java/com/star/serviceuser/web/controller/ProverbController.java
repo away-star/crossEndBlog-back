@@ -1,7 +1,7 @@
 package com.star.serviceuser.web.controller;
 
-import com.example.servicecommon.domain.Result;
-import com.example.servicecommon.util.SecurityUtil;
+import com.star.servicecommon.domain.Result;
+import com.star.servicecommon.util.SecurityUtil;
 import com.star.serviceuser.domain.entity.Proverbs;
 import com.star.serviceuser.service.ProverbsService;
 import lombok.extern.slf4j.Slf4j;

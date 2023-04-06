@@ -18,4 +18,6 @@ public interface LoginInformationService extends IService<LoginInformation> {
     UserDetail register(RegisterInfo registerInfo, String registerIp);
 
     UserDetail getDetail();
+
+    boolean recover(String email, String captcha, String password);
 }

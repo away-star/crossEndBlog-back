@@ -3,7 +3,7 @@ package com.star.servicecontent.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.servicecommon.exception.BusinessException;
+import com.star.servicecommon.exception.BusinessException;
 import com.star.servicecontent.entity.Post;
 import com.star.servicecontent.entity.PostInfo;
 import com.star.servicecontent.entity.dto.PostDto;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-import static com.example.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
+import static com.star.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
 import static com.star.servicecontent.web.msg.ContentCodeMsg.CONTENT_NOTFOUND;
 import static com.star.servicecontent.web.msg.ContentCodeMsg.CONTENT_PRIVATE;
 

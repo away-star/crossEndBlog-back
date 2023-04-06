@@ -1,7 +1,7 @@
 package com.star.servicecontent.web.msg;
 
 
-import com.example.servicecommon.msg.CodeMsg;
+import com.star.servicecommon.msg.CodeMsg;
 
 
 public class ContentCodeMsg extends CodeMsg {

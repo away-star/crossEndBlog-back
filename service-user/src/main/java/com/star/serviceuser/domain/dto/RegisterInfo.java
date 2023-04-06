@@ -14,12 +14,9 @@ public class RegisterInfo {
 
     private String phone;
 
-
     private String email;
 
-
     private String account;
-
 
     private String password;
 

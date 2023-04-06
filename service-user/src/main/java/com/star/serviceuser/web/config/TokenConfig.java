@@ -22,14 +22,7 @@ public class TokenConfig {
 
 
 
-
-
-
-
-
-
-
-    private String SIGNING_KEY = "030321liuxinyu";//和其他服务一致来解析token
+    private String SIGNING_KEY ="cross-end";//和其他服务一致来解析token
 
     @Autowired
     TokenStore tokenStore;

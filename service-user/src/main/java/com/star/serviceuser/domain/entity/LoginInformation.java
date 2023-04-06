@@ -35,7 +35,7 @@ public class LoginInformation implements Serializable {
 
     @ApiModelProperty(value = "邮箱")
     @TableField("Email")
-    private String Email;
+    private String email;
 
     @ApiModelProperty(value = "账号")
     @TableField("account")

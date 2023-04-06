@@ -1,15 +1,13 @@
 package com.star.serviceuser.web.controller;
 
-import com.example.servicecommon.domain.Result;
-import com.example.servicecommon.util.SecurityUtil;
-import com.star.serviceuser.domain.dto.RegisterInfo;
+import com.star.servicecommon.domain.Result;
+import com.star.servicecommon.util.SecurityUtil;
 import com.star.serviceuser.domain.entity.UserInfo;
 import com.star.serviceuser.domain.vo.InitialArgs;
 import com.star.serviceuser.domain.vo.UserDetail;
 import com.star.serviceuser.service.LoginInformationService;
 import com.star.serviceuser.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,19 +42,20 @@ public class UserController {
     }
 
 
-    @PostMapping("/register")
-    public Result<UserDetail> register(@RequestBody @Validated RegisterInfo registerInfo) {
-        // todo 从请求头中获得registerIp
-
-        log.error(registerInfo.toString());
-
-        String registerIp = "123456";
-        UserDetail userDetail = loginInformationService.register(registerInfo, registerIp);
-        if (userDetail != null) {
-            return Result.success(userDetail);
-        }
-        return Result.defaultError();
-    }
+    //已经迁移至loginController
+//    @PostMapping("/register")
+//    public Result<UserDetail> register(@RequestBody @Validated RegisterInfo registerInfo) {
+//        // todo 从请求头中获得registerIp
+//
+//        log.error(registerInfo.toString());
+//
+//        String registerIp = "123456";
+//        UserDetail userDetail = loginInformationService.register(registerInfo, registerIp);
+//        if (userDetail != null) {
+//            return Result.success(userDetail);
+//        }
+//        return Result.defaultError();
+//    }
 
 
     @PutMapping("/updateInfo")
@@ -72,9 +71,7 @@ public class UserController {
 
     @GetMapping("/test")
     public Result test() {
-
         return Result.success(SecurityUtil.getUser());
-
     }
 }
 

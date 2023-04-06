@@ -2,7 +2,7 @@ package com.star.serviceuser.service.impl.used;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.servicecommon.exception.BusinessException;
+import com.star.servicecommon.exception.BusinessException;
 import com.star.serviceuser.domain.dto.LoginInformationDto;
 import com.star.serviceuser.domain.entity.LoginInformation;
 import com.star.serviceuser.service.AuthService;

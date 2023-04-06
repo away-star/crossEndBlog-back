@@ -1,6 +1,6 @@
 package com.star.servicecontent.web.controller;
 
-import com.example.servicecommon.util.SecurityUtil;
+import com.star.servicecommon.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;

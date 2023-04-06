@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class TokenConfig {
 
-    String SIGNING_KEY = "030321liuxinyu";
+    String SIGNING_KEY = "cross-end";
 
 
 //    @Bean

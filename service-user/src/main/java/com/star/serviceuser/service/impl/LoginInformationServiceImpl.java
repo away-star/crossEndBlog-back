@@ -3,8 +3,8 @@ package com.star.serviceuser.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.servicecommon.exception.BusinessException;
-import com.example.servicecommon.util.SecurityUtil;
+import com.star.servicecommon.exception.BusinessException;
+import com.star.servicecommon.util.SecurityUtil;
 import com.star.serviceuser.domain.dto.RegisterInfo;
 import com.star.serviceuser.domain.entity.LoginInformation;
 import com.star.serviceuser.domain.entity.UserInfo;
@@ -19,9 +19,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import static com.example.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
-import static com.star.serviceuser.web.msg.UAACodeMsg.ERROR_CAPTCHA;
-import static com.star.serviceuser.web.msg.UAACodeMsg.REGISTER_ERROR_EMAIL;
+import static com.star.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
+import static com.star.serviceuser.constant.Authority.recoveryCaptchaPrefix;
+import static com.star.serviceuser.constant.Authority.registerCaptchaPrefix;
+import static com.star.serviceuser.web.msg.UAACodeMsg.*;
 
 /**
  * <p>
@@ -50,11 +51,14 @@ public class LoginInformationServiceImpl extends ServiceImpl<LoginInformationMap
 
 
         LoginInformation loginInformation = null;
-        if (StringUtils.equals(registerInfo.getRegisterType(), "password")) {
-            loginInformation = registerByPassword(registerInfo.getAccount(), registerInfo.getPassword());
-        }
+        //todo 暂时未做开发
+//        if (StringUtils.equals(registerInfo.getRegisterType(), "password")) {
+//            loginInformation = registerByPassword(registerInfo.getAccount(), registerInfo.getPassword());
+//        }
         if (StringUtils.equals(registerInfo.getRegisterType(), "email")) {
-            loginInformation = registerByEmail(registerInfo.getEmail(), registerInfo.getCaptcha());
+            loginInformation = registerByEmail(registerInfo, registerInfo.getCaptcha());
+        }else {
+            throw new BusinessException(LOGIN_ERROR);
         }
         user2powerService.initialAuthorization(loginInformation.getId());
         UserInfo userInfo = userInfoService.initialInfo(loginInformation.getId(), registerIp);
@@ -75,6 +79,8 @@ public class LoginInformationServiceImpl extends ServiceImpl<LoginInformationMap
         return userDetail;
     }
 
+
+
     private LoginInformation registerByPassword(String account, String password) {
         LoginInformation user = new LoginInformation();
         user.setAccount(account);
@@ -88,24 +94,41 @@ public class LoginInformationServiceImpl extends ServiceImpl<LoginInformationMap
         return user;
     }
 
-    private LoginInformation registerByEmail(String email, String captcha) {
-        LoginInformation one = this.getOne(new LambdaQueryWrapper<LoginInformation>().eq(LoginInformation::getEmail, email));
-        if (one==null){
+    private LoginInformation registerByEmail(RegisterInfo registerInfo, String captcha) {
+        LoginInformation one = this.getOne(new LambdaQueryWrapper<LoginInformation>().eq(LoginInformation::getEmail, registerInfo.getEmail()));
+        if (one!=null){
             throw new BusinessException(REGISTER_ERROR_EMAIL);
         }
 
         LoginInformation user = new LoginInformation();
-        user.setEmail(email);
-
-
+        user.setEmail(registerInfo.getEmail());
         // todo 结合redis判断用户验证码是否正确
-        String s = stringRedisTemplate.opsForValue().get(email);
+        String s = stringRedisTemplate.opsForValue().get(registerCaptchaPrefix+registerInfo.getEmail());
+        log.error(s);
         if (!StringUtils.equals(captcha, s)) {
             throw new BusinessException(ERROR_CAPTCHA);
         }
-        if (this.save(user)){
+        user.setPassword(registerInfo.getPassword());
+        if (!this.save(user)){
             throw new BusinessException(DATABASE_ERROR);
         };
         return user;
+    }
+
+
+    @Override
+    public boolean recover(String email, String captcha, String password) {
+        LoginInformation one = this.getOne(new LambdaQueryWrapper<LoginInformation>().eq(LoginInformation::getEmail, email));
+        if (one==null){
+            throw new BusinessException(LOGIN_ERROR_EMAIL);
+        }
+        // todo 结合redis判断用户验证码是否正确
+        String s = stringRedisTemplate.opsForValue().get(recoveryCaptchaPrefix+email);
+        log.error(s);
+        if (!StringUtils.equals(captcha, s)) {
+            throw new BusinessException(ERROR_CAPTCHA);
+        }
+        one.setPassword(password);
+        return this.updateById(one);
     }
 }

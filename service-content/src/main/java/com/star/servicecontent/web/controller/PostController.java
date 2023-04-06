@@ -2,7 +2,7 @@ package com.star.servicecontent.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.servicecommon.domain.Result;
+import com.star.servicecommon.domain.Result;
 import com.star.servicecontent.entity.Post;
 import com.star.servicecontent.entity.dto.PostDto;
 import com.star.servicecontent.service.PostService;

@@ -38,10 +38,10 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
             throws Exception {
 
         clients.inMemory()// 使用in-memory存储
-                .withClient("starBlog")// client_id
-                .secret("030321liuxinyu")//客户端密钥
+                .withClient("cross-end")// client_id
+                .secret("cross-end")//客户端密钥
 //                .secret(new BCryptPasswordEncoder().encode("XcWebApp"))//客户端密钥
-                .resourceIds("starBlog")//资源列表
+                .resourceIds("cross-end")//资源列表
 
                 .authorizedGrantTypes("authorization_code", "client_credentials", "implicit", "refresh_token", "password")// 该client允许的授权类型authorization_code,password,refresh_token,implicit,client_credentials
                 .scopes("all")// 允许的授权范围

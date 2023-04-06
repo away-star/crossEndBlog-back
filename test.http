@@ -18,4 +18,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsic3RhckJsb
 
 
 ### 密码模式实测
-POST localhost:9000/service-user/oauth/token?client_id=starBlog&client_secret=030321liuxinyu&grant_type=password&username={"account":"2064989403","authType":"password","password":"030321"}
+POST localhost:9000/service-user/oauth/token?client_id=cross-end&client_secret=cross-end&grant_type=password&username={"email":"2064989403@qq.com","authType":"password","password":"030321"}

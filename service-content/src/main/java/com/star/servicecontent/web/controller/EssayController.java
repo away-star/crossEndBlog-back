@@ -4,7 +4,7 @@ package com.star.servicecontent.web.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.servicecommon.domain.Result;
+import com.star.servicecommon.domain.Result;
 import com.star.servicecontent.entity.Essay;
 import com.star.servicecontent.entity.dto.EssayDto;
 import com.star.servicecontent.service.EssayService;

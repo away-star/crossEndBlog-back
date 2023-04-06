@@ -17,7 +17,7 @@ public class ResouceServerConfig extends ResourceServerConfigurerAdapter {
 
 
     //资源服务标识
-    public static final String RESOURCE_ID = "starBlog";
+    public static final String RESOURCE_ID = "cross-end";
 
     @Autowired
     TokenStore tokenStore;
