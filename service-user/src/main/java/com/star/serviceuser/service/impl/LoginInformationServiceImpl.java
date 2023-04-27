@@ -16,6 +16,7 @@ import com.star.serviceuser.service.UserInfoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -46,6 +47,7 @@ public class LoginInformationServiceImpl extends ServiceImpl<LoginInformationMap
     private UserInfoService userInfoService;
 
     @Override
+    @Transactional
     //@Transactional
     public UserDetail register(RegisterInfo registerInfo, String registerIp) {
 
@@ -80,7 +82,6 @@ public class LoginInformationServiceImpl extends ServiceImpl<LoginInformationMap
     }
 
 
-
     private LoginInformation registerByPassword(String account, String password) {
         LoginInformation user = new LoginInformation();
         user.setAccount(account);
@@ -95,6 +96,9 @@ public class LoginInformationServiceImpl extends ServiceImpl<LoginInformationMap
     }
 
     private LoginInformation registerByEmail(RegisterInfo registerInfo, String captcha) {
+
+        log.error("进入registerByEmail");
+
         LoginInformation one = this.getOne(new LambdaQueryWrapper<LoginInformation>().eq(LoginInformation::getEmail, registerInfo.getEmail()));
         if (one!=null){
             throw new BusinessException(REGISTER_ERROR_EMAIL);

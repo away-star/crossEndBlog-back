@@ -13,7 +13,6 @@
         <module>service-media</module>
         <module>service-content</module>
         <module>service-gateway</module>
-        <module>service-openAi</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -26,6 +25,7 @@
         <mybatisplus.version>3.5.2</mybatisplus.version>
         <knife4j.version>3.0.3</knife4j.version>
         <openai-version>0.8.1</openai-version>
+        <swagger3.version>3.0.0</swagger3.version>
     </properties>
 
     <!--此处的依赖只作为版本管理，子工程需要再次写在pom文件中，但不需要写版本号（dependencies不作继承）-->
@@ -85,6 +85,12 @@
                 <groupId>com.theokanning.openai-gpt3-java</groupId>
                 <artifactId>client</artifactId>
                 <version>${openai-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${swagger3.version}</version>
             </dependency>
 
 

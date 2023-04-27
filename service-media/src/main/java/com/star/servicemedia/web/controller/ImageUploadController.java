@@ -36,10 +36,13 @@ public class ImageUploadController {
 
     @PostMapping("/upload")
     public R<String> upload(@RequestPart MultipartFile file) throws Exception {
+        log.error(file.getOriginalFilename());
+
         //log.error(file.toString());
         //以流的形式上传
         InputStream fileStream = file.getInputStream();
-        String url = qiNiuSupport.uploadFileInputStream(fileStream, "blog/" +UUID.randomUUID() + file.getOriginalFilename());
+        String contentType = file.getContentType();
+        String url = qiNiuSupport.uploadFileInputStream(fileStream, "blog/" +UUID.randomUUID()+'.'+contentType.substring(contentType.indexOf("/")+1));
 
         /*
          以字节形式上传

@@ -1,8 +1,13 @@
 package com.star.serviceuser.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.star.serviceuser.domain.entity.UserInfo;
+import com.star.serviceuser.domain.dto.BlogSetting;
+import com.star.serviceuser.domain.dto.UserInfoDto;
 import com.star.serviceuser.domain.vo.InitialArgs;
+import com.star.serviceuser.domain.entity.UserInfo;
+
+import java.util.List;
+
 
 /**
  * <p>
@@ -15,8 +20,13 @@ import com.star.serviceuser.domain.vo.InitialArgs;
 public interface UserInfoService extends IService<UserInfo> {
 
 
-    InitialArgs getInitial(Long userId);
+    InitialArgs getInitial(Long loginInformationId);
 
     UserInfo initialInfo(Long userId, String registerIp);
 
+    boolean updateInfo(UserInfo userInfo);
+
+    boolean updateBlogSetting(BlogSetting blogSetting);
+
+    List<UserInfoDto> getAllUsers();
 }

@@ -39,12 +39,6 @@ spring:
     active: dev
 
 
-
 server:
   port: 8083
-
-
-
-
-
 

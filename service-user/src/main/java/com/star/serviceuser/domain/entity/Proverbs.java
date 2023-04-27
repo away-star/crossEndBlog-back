@@ -48,8 +48,8 @@ public class Proverbs implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "主键")
-  //  @TableId(value = "id", type = IdType.AUTO)
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+   @TableId(value = "id", type = IdType.AUTO)
+  // @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Long id;
 
     @ApiModelProperty(value = "状态 1表示启用 0表示不启用 ")

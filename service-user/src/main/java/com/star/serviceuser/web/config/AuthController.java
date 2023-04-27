@@ -1,7 +1,6 @@
 package com.star.serviceuser.web.config;
 
 import com.star.servicecommon.domain.Result;
-import com.star.serviceuser.service.LoginInformationService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,9 +30,6 @@ public class AuthController implements InitializingBean {
     @Autowired
     private TokenEndpoint tokenEndpoint;
 
-    @Autowired
-    private LoginInformationService loginInformationService;
-
 
     /**
      * 重写/oauth/token这个默认接口，返回的数据格式统一
@@ -42,6 +38,7 @@ public class AuthController implements InitializingBean {
     public Result<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam
     Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+        log.error("accessToken:{}", accessToken);
         return Result.success(accessToken);
     }
 

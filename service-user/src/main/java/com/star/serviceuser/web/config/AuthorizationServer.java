@@ -42,7 +42,6 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .secret("cross-end")//客户端密钥
 //                .secret(new BCryptPasswordEncoder().encode("XcWebApp"))//客户端密钥
                 .resourceIds("cross-end")//资源列表
-
                 .authorizedGrantTypes("authorization_code", "client_credentials", "implicit", "refresh_token", "password")// 该client允许的授权类型authorization_code,password,refresh_token,implicit,client_credentials
                 .scopes("all")// 允许的授权范围
                 .autoApprove(false)//false跳转到授权页面
@@ -59,7 +58,11 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
                 .authenticationManager(authenticationManager)//认证管理器
                 .tokenServices(authorizationServerTokenServices)//令牌管理服务
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST);
+               //.tokenEnhancer(tokenEnhancer());
+
     }
+
+
 
     //令牌端点的安全配置
     @Override

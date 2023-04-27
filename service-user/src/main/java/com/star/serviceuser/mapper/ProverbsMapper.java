@@ -18,6 +18,6 @@ import org.apache.ibatis.annotations.Select;
 public interface ProverbsMapper extends BaseMapper<Proverbs> {
 
     @Select("SELECT * FROM proverbs where is_using=1 and is_delete=0 and login_information_id=#{userId} ORDER BY RAND() LIMIT 1；")
-    Proverbs getRandProverbs(@Param("userId") Long userId);
+    Proverbs getRandProverbs(@Param("email") String email);
 
 }

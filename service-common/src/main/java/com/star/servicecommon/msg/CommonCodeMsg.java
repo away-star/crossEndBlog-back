@@ -12,5 +12,4 @@ public class CommonCodeMsg extends CodeMsg {
     public static final CommonCodeMsg METHOD_ARGUMENT_IN_VALID = new CommonCodeMsg(-2,"参数不合法，请检查");
     public static final CommonCodeMsg DATABASE_ERROR = new CommonCodeMsg(-2,"数据库错误");
 
-
 }

@@ -20,12 +20,11 @@ public class testController {
 
 
     @GetMapping("/777")
-   // @PreAuthorize("hasAuthority('test')")
+    //@PreAuthorize("hasAuthority('chat')")
     public String post(){
-
         log.error("jinlaile ");
         SecurityUtil.UserInfo user = SecurityUtil.getUser();
-
-        return user.toString();
+        log.error(user.toString());
+        return "777";
     }
 }

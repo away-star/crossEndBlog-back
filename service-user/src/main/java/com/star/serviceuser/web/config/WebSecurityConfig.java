@@ -1,6 +1,7 @@
 package com.star.serviceuser.web.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,6 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //允许在方法上加的注解来配置权限
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+   @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
 
  /*   @Autowired
@@ -56,21 +60,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
     //配置安全拦截机制
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http
-
-                .authorizeRequests()
-               // .antMatchers(HttpMethod.POST,"/information/test").authenticated()//访问/r开始的请求需要认证通过
+        http.authorizeRequests()
+                //.antMatchers("/api/**").authenticated() // 对 "/api/**" 的URL进行拦截
                 .anyRequest().permitAll()
                 .and()
-                .csrf().disable();//其它请求全部放行
-
-        //处理登录逻辑
-/*        http.addFilterAfter(loginFilter(), UsernamePasswordAuthenticationFilter.class);*/
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint); // 使用自定义的认证失败处理类
     }
 
    /* @Bean

@@ -6,9 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
@@ -16,34 +15,20 @@ import static com.star.servicecommon.msg.CommonCodeMsg.METHOD_ARGUMENT_IN_VALID;
 
 
 @Slf4j
-@ControllerAdvice//控制器增强
+@RestControllerAdvice//控制器增强
 public class GlobalExceptionHandler {
 
-    //处理XueChengPlusException异常  此类异常是程序员主动抛出的，可预知异常
-    @ResponseBody//将信息返回为 json格式
-    @ExceptionHandler(BusinessException.class)//此方法捕获XueChengPlusException异常
-    public Result<CodeMsg> doBusinessException(BusinessException e) {
+    @ExceptionHandler(value = {BusinessException.class})
+    public Result<CodeMsg> handleBusinessException(BusinessException e) {
 
-        log.error("捕获异常：{}", e.getCodeMsg());
-        e.printStackTrace();
-
+        log.error(e.toString());
         return Result.error(e.getCodeMsg());
     }
 
 
-    //捕获不可预知异常 Exception
-    @ResponseBody//将信息返回为 json格式
-    @ExceptionHandler(Exception.class)//此方法捕获Exception异常
-    public Result doException(Exception e) {
 
-        log.error("捕获异常：{}", e.getMessage());
-        return Result.defaultError();
-    }
-
-
-    @ResponseBody//将信息返回为 json格式
-    @ExceptionHandler(MethodArgumentNotValidException.class)//此方法捕获MethodArgumentNotValidException异常
-    public Result<CodeMsg> doMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    public Result<CodeMsg> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
         BindingResult bindingResult = e.getBindingResult();
         //校验的错误信息
@@ -56,4 +41,14 @@ public class GlobalExceptionHandler {
         log.error(errors.toString());
         return Result.error(METHOD_ARGUMENT_IN_VALID);
     }
+
+    //捕获不可预知异常 Exception
+    @ExceptionHandler(Exception.class)
+    public Result handleException(Exception e) {
+        log.error("捕获异常：{}", e.getMessage());
+        e.printStackTrace();
+        return Result.defaultError();
+    }
 }
+
+

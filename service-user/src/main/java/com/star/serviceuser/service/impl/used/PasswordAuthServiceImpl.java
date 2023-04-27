@@ -8,9 +8,10 @@ import com.star.serviceuser.domain.entity.LoginInformation;
 import com.star.serviceuser.service.AuthService;
 import com.star.serviceuser.service.LoginInformationService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 import static com.star.serviceuser.web.msg.UAACodeMsg.LOGIN_ERROR_EMAIL;
 import static com.star.serviceuser.web.msg.UAACodeMsg.LOGIN_ERROR_PASSWORD;
@@ -22,10 +23,10 @@ import static com.star.serviceuser.web.msg.UAACodeMsg.LOGIN_ERROR_PASSWORD;
 @Slf4j
 @Service("password_authservice")
 public class PasswordAuthServiceImpl implements AuthService {
-    @Autowired
+    @Resource
     PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @Resource
     private LoginInformationService service;
 
     @Override
@@ -37,13 +38,16 @@ public class PasswordAuthServiceImpl implements AuthService {
         log.error("email" + email);
         LoginInformation user;
         if (account == null) {
+            log.error( "account == null");
             //判断是否为邮箱登录
             user = service.getOne(new LambdaQueryWrapper<LoginInformation>().eq( email!= null, LoginInformation::getEmail, email));
         }else {
+            log.error( "account != null");
            user = service.getOne(new LambdaQueryWrapper<LoginInformation>().eq( LoginInformation::getAccount, account));
         }
 
         if (user == null) {
+            log.error( "user == null");
             throw new BusinessException(LOGIN_ERROR_EMAIL);
         }
 

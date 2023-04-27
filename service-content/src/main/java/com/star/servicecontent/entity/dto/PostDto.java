@@ -13,5 +13,4 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PostDto extends Post {
     private PostInfo postInfo;
-
 }

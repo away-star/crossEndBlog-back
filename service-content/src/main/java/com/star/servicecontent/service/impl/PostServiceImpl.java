@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 import static com.star.servicecommon.msg.CommonCodeMsg.DATABASE_ERROR;
-import static com.star.servicecontent.web.msg.ContentCodeMsg.CONTENT_NOTFOUND;
 import static com.star.servicecontent.web.msg.ContentCodeMsg.CONTENT_PRIVATE;
 
 /**
@@ -38,9 +37,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     public PostDto getDetail(Integer id) {
         Post post = this.getById(id);
         log.error(post.toString());
-        if (post==null){
-            throw new BusinessException(CONTENT_NOTFOUND);
-        }
         if (!post.isOpen()){
             throw new BusinessException(CONTENT_PRIVATE);
         }

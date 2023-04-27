@@ -27,7 +27,7 @@ public class CodeGenerator {
         // 全局策略配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir"); // 项目路径
-        gc.setOutputDir(projectPath + "/service-content/src/main/java"); // 生成的文件路径
+        gc.setOutputDir(projectPath + "/service-user/src/main/java"); // 生成的文件路径
         gc.setAuthor("star");//作者，开发人员
         gc.setOpen(false); // 是否打开生成的目录
         gc.setFileOverride(false); // 是否覆盖已有文件, 默认false
@@ -49,16 +49,16 @@ public class CodeGenerator {
         // 包名配置，通过该配置，指定生成代码的包路径
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(null); // 模块路径(子路径)
-        pc.setParent("com.star.servicecontent"); // 生成的代码的父路径
+        pc.setParent("com.star.serviceuser"); // 生成的代码的父路径
         pc.setEntity("entity"); // 生成实体类所在的包名
         pc.setMapper("mapper");
         pc.setService("service");
-        pc.setController("controller");
+//        pc.setController("controller");
         mpg.setPackageInfo(pc);
 
         // 数据库表配置，通过该配置，可指定需要生成哪些表或者排除哪些表
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("essay"); // 要生成的表在数据库中的名称, 每张表名以英文逗号隔开
+        strategy.setInclude("message"); // 要生成的表在数据库中的名称, 每张表名以英文逗号隔开
         strategy.setNaming(NamingStrategy.underline_to_camel); // 表名转换方式: 数据库中的下划线转成java驼峰
         strategy.setColumnNaming(NamingStrategy.underline_to_camel); // 列名转换方式
         strategy.setEntityLombokModel(true); // 自动加上lombok注解

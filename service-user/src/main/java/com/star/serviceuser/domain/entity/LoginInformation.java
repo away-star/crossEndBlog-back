@@ -45,4 +45,7 @@ public class LoginInformation implements Serializable {
     @TableField("password")
     private String password;
 
+    @ApiModelProperty(value = "注册的ip地址")
+    @TableField("register_ip")
+    private String registerIp;
 }

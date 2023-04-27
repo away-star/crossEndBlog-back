@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author 86136
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.star")
 public class ServiceMediaApplication {
 
     public static void main(String[] args) {

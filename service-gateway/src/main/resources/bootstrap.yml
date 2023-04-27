@@ -22,3 +22,7 @@ spring:
         group: star-blog
 
 
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true

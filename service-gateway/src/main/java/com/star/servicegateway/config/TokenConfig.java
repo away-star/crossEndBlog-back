@@ -37,6 +37,4 @@ public class TokenConfig {
         converter.setSigningKey(SIGNING_KEY);
         return converter;
     }
-
-
 }

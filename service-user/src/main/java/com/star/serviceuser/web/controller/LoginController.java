@@ -1,6 +1,5 @@
 package com.star.serviceuser.web.controller;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.star.servicecommon.domain.Result;
@@ -42,7 +41,6 @@ public class LoginController {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-
     /**
      * 验证码发送登录
      *
@@ -68,11 +66,12 @@ public class LoginController {
 
     @GetMapping("/mail/register/captcha")
     public Result<Object> codeSendForRegister(@RequestParam("email") @Email String email) {
+        log.error(email);
         LoginInformation one = getLoginInformationByEmail(email);
         if (one != null) {
             throw new BusinessException(REGISTER_ERROR_EMAIL);
         }
-        log.error(email);
+
         String captcha = ValidateCodeUtils.generateValidateCode4String(4);
         boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎注册cross-end Blog");
         stringRedisTemplate.opsForValue().set(registerCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
@@ -100,7 +99,9 @@ public class LoginController {
 
 
     private LoginInformation getLoginInformationByEmail(String email) {
+        log.error(email);
         LambdaQueryWrapper<LoginInformation> userWrapper = new LambdaQueryWrapper<>();
+        log.error(userWrapper.toString());
         userWrapper.eq(LoginInformation::getEmail, email);
         return loginService.getOne(userWrapper);
     }
@@ -132,5 +133,4 @@ public class LoginController {
         }
         return Result.defaultError();
     }
-
 }

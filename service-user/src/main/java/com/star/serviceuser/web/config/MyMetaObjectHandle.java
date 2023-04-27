@@ -24,11 +24,9 @@ public class MyMetaObjectHandle implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("公共字段自动填充 [insert]...");
-
         metaObject.setValue("id",new Snowflake(1,1,true).nextId());
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
-
 
        // this.setFieldValByName("id",new Snowflake(1,1,true) , metaObject);
     }
