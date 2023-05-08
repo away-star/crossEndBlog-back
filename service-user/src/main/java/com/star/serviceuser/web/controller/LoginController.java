@@ -2,6 +2,7 @@ package com.star.serviceuser.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.star.servicecommon.domain.MailDto;
 import com.star.servicecommon.domain.Result;
 import com.star.servicecommon.exception.BusinessException;
 import com.star.serviceuser.domain.dto.LoginInformationDto;
@@ -9,9 +10,9 @@ import com.star.serviceuser.domain.dto.RegisterInfo;
 import com.star.serviceuser.domain.entity.LoginInformation;
 import com.star.serviceuser.domain.vo.UserDetail;
 import com.star.serviceuser.service.LoginInformationService;
-import com.star.serviceuser.util.MailClientUtil;
 import com.star.serviceuser.util.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,8 @@ import javax.validation.constraints.Email;
 import java.util.concurrent.TimeUnit;
 
 import static com.star.serviceuser.constant.Authority.*;
-import static com.star.serviceuser.web.msg.UAACodeMsg.*;
+import static com.star.serviceuser.web.msg.UAACodeMsg.LOGIN_ERROR_EMAIL;
+import static com.star.serviceuser.web.msg.UAACodeMsg.REGISTER_ERROR_EMAIL;
 
 /**
  * @author star
@@ -36,10 +38,10 @@ public class LoginController {
     private LoginInformationService loginService;
 
     @Resource
-    private MailClientUtil mailClientUtil;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 验证码发送登录
@@ -56,12 +58,20 @@ public class LoginController {
             throw new BusinessException(LOGIN_ERROR_EMAIL);
         }
         log.error(captcha);
-        boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎光临 cross-end Blog");
+
+        MailDto mailDto = new MailDto(email, captcha, "欢迎登录 cross-end Blog");
+        rabbitTemplate.convertAndSend("exchange_user", "loginCaptcha", mailDto, message -> {
+            //五分钟未被执行则删除
+            message.getMessageProperties().setExpiration("300000");
+            return message;
+        });
+        //boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎光临 cross-end Blog");
         stringRedisTemplate.opsForValue().set(loginCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
-        if (flag) {
-            return Result.success();
-        }
-        throw new BusinessException(ERROR_SERVER);
+//        if (flag) {
+//            return Result.success();
+//        }
+//        throw new BusinessException(ERROR_SERVER);
+        return Result.success();
     }
 
     @GetMapping("/mail/register/captcha")
@@ -73,12 +83,20 @@ public class LoginController {
         }
 
         String captcha = ValidateCodeUtils.generateValidateCode4String(4);
-        boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎注册cross-end Blog");
+        MailDto mailDto = new MailDto(email, captcha, "欢迎注册 cross-end Blog");
+        rabbitTemplate.convertAndSend("exchange_user", "registerCaptcha", mailDto, message -> {
+            //五分钟未被执行则删除
+            message.getMessageProperties().setExpiration("300000");
+            return message;
+        });
+
+//        boolean flag = mailClientUtil.sendMail(email, captcha, "欢迎注册cross-end Blog");
         stringRedisTemplate.opsForValue().set(registerCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
-        if (flag) {
-            return Result.success();
-        }
-        throw new BusinessException(ERROR_SERVER);
+//        if (flag) {
+//            return Result.success();
+//        }
+//        throw new BusinessException(ERROR_SERVER);
+        return Result.success();
     }
 
     @GetMapping("/mail/recover/captcha")
@@ -89,12 +107,19 @@ public class LoginController {
         }
         log.error(email);
         String captcha = ValidateCodeUtils.generateValidateCode4String(4);
-        boolean flag = mailClientUtil.sendMail(email, captcha, "您正在修改账户密码，若非本人操作，请尽快联系管理员");
+        MailDto mailDto = new MailDto(email, captcha, "您正在修改账户密码，若非本人操作，请尽快联系管理员");
+        rabbitTemplate.convertAndSend("exchange_user", "recoverCaptcha", mailDto, message -> {
+            //五分钟未被执行则删除
+            message.getMessageProperties().setExpiration("300000");
+            return message;
+        });
+//        boolean flag = mailClientUtil.sendMail(email, captcha, "您正在修改账户密码，若非本人操作，请尽快联系管理员");
         stringRedisTemplate.opsForValue().set(recoveryCaptchaPrefix + email, captcha, 5, TimeUnit.MINUTES);
-        if (flag) {
-            return Result.success();
-        }
-        throw new BusinessException(ERROR_SERVER);
+//        if (flag) {
+//            return Result.success();
+//        }
+//        throw new BusinessException(ERROR_SERVER);
+        return Result.success();
     }
 
 

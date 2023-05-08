@@ -78,8 +78,6 @@
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
 
-
-
         <!--数据库相关-->
         <!--mysql-connector-java -->
         <dependency>
@@ -106,11 +104,11 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
-        <!-- Quartz redis定时任务持久化存储到数据库 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
-        </dependency>
+<!--        &lt;!&ndash; Quartz redis定时任务持久化存储到数据库 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-quartz</artifactId>-->
+<!--        </dependency>-->
 
         <!--工具相关-->
         <!--knife4j工具-->
@@ -156,18 +154,15 @@
         </dependency>
 
 
-        <!--网易邮箱-->
+
+
+
+        <!--amqp-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
 
-        <!--  email      -->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.5.0-b01</version>
-        </dependency>
     </dependencies>
 </project>

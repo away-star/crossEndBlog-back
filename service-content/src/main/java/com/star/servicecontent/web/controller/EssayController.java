@@ -69,8 +69,8 @@ public class EssayController {
     public Result<Page> postPage(
             @RequestParam(required = true) Long authorId,
             @RequestParam(required = true) Integer step,
-                                       @RequestParam(required = false) Date lastUpdateDate,
-                                       @RequestParam(required = false) String category) {
+            @RequestParam(required = false) Date lastUpdateDate,
+            @RequestParam(required = false) String category) {
         log.error(step.toString());
         Page<Essay> postPage = new Page<>(0,step);
         LambdaQueryWrapper<Essay> essayWrapper = new LambdaQueryWrapper<>();
@@ -89,6 +89,8 @@ public class EssayController {
         //拷贝属性
         BeanUtils.copyProperties(page,rPage,"records");
         rPage.setRecords(list);
+
+        
         return Result.success(rPage);
     }
 

@@ -1,13 +1,17 @@
 spring:
   application:
-    name: service-content
+    name: service-userMQ
   cloud:
+    config:
+      #设置本地优先级最高
+      allow-override: true
     nacos:
       server-addr: localhost:8848
       discovery:
         namespace: star-blog
         group: star-blog
       config:
+        # 下面的namespace和group不能省，不然找不到nacos的配置文件
         namespace: star-blog
         #group为public情况下可以省略
         group: star-blog
@@ -20,11 +24,21 @@ spring:
             group: star-blog
             #是否支持动态刷新
             refresh: true
-  datasource:
-    druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/content
-      password: "030321"
-      username: root
+  mail:
+    # SMTP服务器
+    host: smtp.163.com
+    # 发送验证码邮箱
+    username: q2064989403@163.com
+    # 授权码
+    password: HTQQVIBEFOEPGUNS
+    # 编码
+    default-encoding: utf-8
+    port: 465
+    protocol: smtps
+  #手动指定开发环境
+  profiles:
+    active: dev
+
 server:
-  port: 9120
+  port: 9111
+

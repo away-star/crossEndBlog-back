@@ -22,6 +22,4 @@ public class UAACodeMsg extends CodeMsg {
 
     public static final UAACodeMsg ERROR_CAPTCHA = new UAACodeMsg(500106, "验证码有误，请重新输入");
     public static final UAACodeMsg ERROR_SERVER = new UAACodeMsg(500106, "服务器出问题啦！");
-
-
 }

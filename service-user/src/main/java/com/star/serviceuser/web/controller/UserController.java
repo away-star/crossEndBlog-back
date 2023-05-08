@@ -1,4 +1,5 @@
 package com.star.serviceuser.web.controller;
+
 import com.star.servicecommon.domain.Result;
 import com.star.servicecommon.exception.BusinessException;
 import com.star.servicecommon.util.SecurityUtil;
@@ -11,6 +12,7 @@ import com.star.serviceuser.service.LoginInformationService;
 import com.star.serviceuser.service.UserInfoService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,6 +35,9 @@ public class UserController {
     private UserInfoService userInfoService;
 
     @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @Resource
     private LoginInformationService loginInformationService;
 
     @ApiOperation(response = InitialArgs.class, value = "获取用户初始信息")
@@ -43,7 +48,7 @@ public class UserController {
         if (Objects.isNull(loginInformationId)) {
             log.error("loginInformationId is null");
             loginInformationId = Objects.requireNonNull(SecurityUtil.getUser()).getId();
-            //对当前线程设置优先级
+            //对当前线程设置优先级（10最大，1最小）
             Thread.currentThread().setPriority(10);
         }
         InitialArgs initialArgs = userInfoService.getInitial(loginInformationId);

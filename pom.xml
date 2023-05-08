@@ -13,6 +13,7 @@
         <module>service-media</module>
         <module>service-content</module>
         <module>service-gateway</module>
+        <module>service-userMQ</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -92,6 +93,7 @@
                 <artifactId>springfox-boot-starter</artifactId>
                 <version>${swagger3.version}</version>
             </dependency>
+
 
 
         </dependencies>

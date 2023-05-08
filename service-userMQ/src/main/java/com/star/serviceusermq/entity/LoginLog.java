@@ -1,4 +1,4 @@
-package com.star.serviceuser.domain.entity;
+package com.star.serviceusermq.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ public class LoginLog implements Serializable {
 
     @ApiModelProperty(value = "登录时间")
     @TableField("login_time")
-    private LocalDateTime loginTime;
+    private Date loginTime;
 
     @ApiModelProperty(value = "登录的ip地址")
     @TableField("login_ip")

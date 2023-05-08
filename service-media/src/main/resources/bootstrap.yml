@@ -17,6 +17,8 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+        namespace: star-blog
+        group: star-blog
 
 qiniu:
   #自己账户的ak sk
@@ -31,4 +33,4 @@ qiniu:
 
 
 server:
-  port: 8088
+  port: 9200
