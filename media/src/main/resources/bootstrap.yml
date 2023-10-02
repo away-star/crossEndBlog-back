@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: media
+
+  servlet:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 20MB
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/helloWorld
+      password: "030321"
+      username: root
+
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: 2d5c46e8-08d2-4ea8-94c9-d375279cac7b
+        group: crossEndBlog
+      config:
+        namespace: 2d5c46e8-08d2-4ea8-94c9-d375279cac7b
+        #group为public情况下可以省略
+        group: crossEndBlog
+        file-extension: yaml
+        #是否支持动态刷新
+        refresh-enabled: true
+        shared-configs:
+          - data-id: common.yaml
+            #group为public情况下可以省略
+            group: crossEndBlog
+            #是否支持动态刷新
+            refresh: true
+          - data-id: MQ.yaml
+            group: crossEndBlog
+            refresh: true
+  profiles:
+    active: dev
+
+#qiniu:
+#  #自己账户的ak sk
+#  secretKey: "NkIglvJgXyoO6s1sh7rX2O1KBwltzLjuF4sPj3QY"
+#  accessKey: "qYSQWz-EEJSJDAsg3Q7QqVy-GmpGLclb5lREXqO1"
+#  #存储空间名
+#  bucket: "interestoriented"
+#  # 自己的存储空间域名
+#  cdnProfile: "staraway.love"
+#  #采用的协议 http:// 还是 https://  个人此空间由于没配域名 采用的是http协议  http://qa7oc48w0.bkt.clouddn.com/logo
+#  protocol: "https://"
+
+
+server:
+  port: 9200

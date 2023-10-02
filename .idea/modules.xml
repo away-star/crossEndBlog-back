@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MQConsumer/MQConsumer.iml" filepath="$PROJECT_DIR$/MQConsumer/MQConsumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/content/content.iml" filepath="$PROJECT_DIR$/content/content.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/media/media.iml" filepath="$PROJECT_DIR$/media/media.iml" />
+      <module fileurl="file://$PROJECT_DIR$/userCenter/userCenter.iml" filepath="$PROJECT_DIR$/userCenter/userCenter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/userSecurity/userSecurity.iml" filepath="$PROJECT_DIR$/userSecurity/userSecurity.iml" />
+    </modules>
+  </component>
+</project>

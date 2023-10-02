@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: service-content
+  cloud:
+    config:
+      allow-override: true
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: 2d5c46e8-08d2-4ea8-94c9-d375279cac7b
+        group: crossEndBlog
+      config:
+        namespace: 2d5c46e8-08d2-4ea8-94c9-d375279cac7b
+        #group为public情况下可以省略
+        group: crossEndBlog
+        file-extension: yaml
+        #是否支持动态刷新
+        refresh-enabled: true
+        shared-configs:
+          - data-id: common.yaml
+            #group为public情况下可以省略
+            group: crossEndBlog
+            #是否支持动态刷新
+            refresh: true
+          - data-id: MQ.yaml
+            group: crossEndBlog
+            refresh: true
+
+  profiles:
+    active: dev
+
+server:
+  port: 9113
